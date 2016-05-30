@@ -55,7 +55,7 @@ def redmine():
         m = match('(rel|issue|fix|fixes)\s*#?(\d+)', commit['message'],
                   IGNORECASE)
         if m is not None:
-            accion = m.groups()[0]
+            accion = m.groups()[0].lower()
             status = None
             if accion in('fix', 'fixes'):
                 status = 3  # fix
