@@ -1,7 +1,7 @@
 Overview
 ========
 
-Repository of python webhook to integrante gitlab to Redmine issue tracker.
+Repository of python webhook to integrate gitlab to Redmine issue tracker.
 
 License
 =======
