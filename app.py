@@ -50,18 +50,24 @@ def redmine():
     #"total_commits_count": 4
     redmine = Redmine(url, key=api_key, requests={'verify': False})
     request.json['commits'].reverse()
+    branch = request.json['ref'].split('/')[2]
+    default_branch = request.json['project']['default_branch']
     note = ''
-    for commit in request.json['commits']:
-        m = match('(rel|issue|fix|fixes)\s*#?(\d+)', commit['message'],
-                  IGNORECASE)
-        if m is not None:
-            accion = m.groups()[0].lower()
-            status = None
-            if accion in('fix', 'fixes'):
-                status = 3  # fix
-            note = '<pre>author: ' + commit['author']['name'] + ' <'+commit['author']['email']+'>\n' + \
-                'msg: '+commit['message'] + '</pre>' + 'commit: "' + commit['id'][:8] + '":' + commit['url']
-            redmine.issue.update(m.groups()[1], notes=note, status_id=status)
+    if branch == default_branch:
+        for commit in request.json['commits']:
+            m = match('(rel|issue|fix|fixes)\s*#?(\d+)', commit['message'],
+                    IGNORECASE)
+            if m is not None:
+                accion = m.groups()[0].lower()
+                status = None
+                note = '<pre>author: ' + commit['author']['name'] + ' <'+commit['author']['email']+'>\n' + \
+                    'msg: '+commit['message'] + '</pre>' + 'commit: "' + commit['id'][:8] + '":' + commit['url']
+                if accion in('fix', 'fixes'):
+                    status = 3  # fix
+                    redmine.issue.update(m.groups()[1], notes=note, status_id=status, done_ratio=100)
+		else:
+                    redmine.issue.update(m.groups()[1], notes=note, status_id=status)
+
 
     data = {'msg': 'OK'}
     resp = jsonify(data)
