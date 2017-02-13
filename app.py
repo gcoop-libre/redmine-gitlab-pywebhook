@@ -68,7 +68,6 @@ def redmine():
 		else:
                     redmine.issue.update(m.groups()[1], notes=note, status_id=status)
 
-
     data = {'msg': 'OK'}
     resp = jsonify(data)
     resp.status_code = 200
