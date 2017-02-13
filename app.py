@@ -64,7 +64,7 @@ def redmine():
                     status = 3  # fix
                 note = '<pre>author: ' + commit['author']['name'] + ' <'+commit['author']['email']+'>\n' + \
                     'msg: '+commit['message'] + '</pre>' + 'commit: "' + commit['id'][:8] + '":' + commit['url']
-                redmine.issue.update(m.groups()[1], notes=note, status_id=status)
+                redmine.issue.update(m.groups()[1], notes=note, status_id=status, done_ratio=100)
 
     data = {'msg': 'OK'}
     resp = jsonify(data)
