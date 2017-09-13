@@ -55,7 +55,7 @@ def redmine():
     note = ''
     if branch == default_branch:
         for commit in request.json['commits']:
-            m = match('(rel|issue|fix|fixes)\s*#?(\d+)', commit['message'],
+	    m = match('.*(rel|issue|fix|fixes)\s*#?(\d+)', commit['message'].replace('\n', ' '),
                     IGNORECASE)
             if m is not None:
                 accion = m.groups()[0].lower()
