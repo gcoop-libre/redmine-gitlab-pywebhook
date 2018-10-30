@@ -64,9 +64,9 @@ def redmine():
                     'msg: '+commit['message'] + '</pre>' + 'commit: "' + commit['id'][:8] + '":' + commit['url']
                 if accion in('fix', 'fixes'):
                     status = 3  # fix
-                    redmine.issue.update(m.groups()[1], notes=note, status_id=status, done_ratio=100)
+                    redmine.issues.update(m.groups()[1], notes=note, status_id=status, done_ratio=100)
 		else:
-                    redmine.issue.update(m.groups()[1], notes=note, status_id=status)
+                    redmine.issues.update(m.groups()[1], notes=note, status_id=status)
 
     data = {'msg': 'OK'}
     resp = jsonify(data)
